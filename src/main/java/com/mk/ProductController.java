@@ -1,5 +1,8 @@
 package com.mk;
 
+import com.mk.model.Product;
+import com.mk.service.IProductService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -8,6 +11,8 @@ import java.util.List;
 @RequestMapping("product")
 public class ProductController {
 
+    @Autowired
+    private IProductService productService;
     List<String> products;
 
     public ProductController(List<String> products) {
@@ -18,8 +23,8 @@ public class ProductController {
     }
 
     @GetMapping("products")
-    public List<String> getProducts() {
-        return products;
+    public List<Product> getProducts() {
+        return productService.getProducts();
     }
 
     @GetMapping("products-by-index")
@@ -34,19 +39,22 @@ public class ProductController {
     }
 
     @PostMapping("products")
-    public void addProduct(@RequestBody String product) {
-        products.add(product);
+    public void addProduct(@RequestBody Product product) {
+        //products.add(product);
+        productService.addProduct();
     }
 
     //This makes path variables to be optional
     //@PutMapping(value = {"updateProduct", "updateProduct/{index}/{product}"})
     @PutMapping("products/{index}/{product}")
-    public void updateProduct(@PathVariable("index") int index, @PathVariable("product") String product) {
-        products.set(index, product);
+    public void updateProduct(@PathVariable("index") String index, @PathVariable("product") String product) {
+        //products.set(index, product);
+        productService.updateProduct(Long.parseLong(index));
     }
 
     @DeleteMapping(value = {"products", "products/{index}"})
-    public void deleteProduct(@PathVariable(required = false) int index) {
-        products.remove(index - 1);
+    public void deleteProduct(@PathVariable(required = false) String index) {
+        //products.remove(index - 1);
+        productService.deleteProduct(Long.parseLong(index));
     }
 }
