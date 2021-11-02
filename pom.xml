@@ -53,6 +53,12 @@
 			<scope>provided</scope>
 		</dependency>
 
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<version>1.4.196</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
@@ -60,6 +66,22 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+
+			<plugin>
+				<groupId>org.flywaydb</groupId>
+				<artifactId>flyway-maven-plugin</artifactId>
+				<version>8.0.0</version>
+				<configuration>
+					<user>test</user>
+					<password>2203</password>
+					<schemas>
+						<schema>test</schema>
+					</schemas>
+					<configFiles>
+						<configFile>flyway_config.conf</configFile>
+					</configFiles>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
